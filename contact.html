@@ -1,96 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Contact | Go East Mechanics</title>
-  <link rel="stylesheet" href="css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact | Go East Mechanics</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- Official Supabase JavaScript Library -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
+
 <body>
 
-  <header class="navbar">
+<header class="navbar">
     <div class="logo">GO EAST <span>MECHANICS</span></div>
 
     <nav class="nav-links" id="navLinks">
-      <a href="index.html">Home</a>
-      <a href="about.html">About</a>
-      <a href="services.html">Services</a>
-      <a href="inventory.html">Inventory</a>
-      <a href="contact.html">Contact</a>
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="services.html">Services</a>
+        <a href="inventory.html">Inventory</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="testimonials.html">Testimonials</a>
+        <a href="faq.html">FAQ</a>
+        <a href="contact.html">Contact</a>
     </nav>
 
     <button class="menu-btn" id="menuBtn">☰</button>
-  </header>
+</header>
 
-  <section class="hero" style="min-height:60vh;">
+<section class="hero page-hero">
     <div class="hero-content">
-      <p class="tagline">Get In Touch</p>
-      <h1>Contact Go East Mechanics</h1>
-      <p class="hero-text">
-        Need repairs, maintenance, diagnostics, or help finding a vehicle?
-        Reach out today and our team will help you.
-      </p>
+        <p class="tagline">Get In Touch</p>
+        <h1>Book Your Service</h1>
+        <p class="hero-text">
+            Fill out the form below and we'll get back to you as soon as possible.
+        </p>
     </div>
-  </section>
+</section>
 
-  <section class="section services-preview">
+<section class="section">
+
     <div class="section-title">
-      <p>Contact Us</p>
-      <h2>Book A Service Or Ask A Question</h2>
+        <p>Contact Us</p>
+        <h2>Service Request Form</h2>
     </div>
 
-    <div class="cards">
+    <form id="contactForm" class="contact-form">
 
-      <div class="card">
-        <h3>Call Us</h3>
-        <p>Phone number coming soon.</p>
-      </div>
+        <input
+            type="text"
+            id="name"
+            placeholder="Full Name"
+            required
+        >
 
-      <div class="card">
-        <h3>Email Us</h3>
-        <p>Email address coming soon.</p>
-      </div>
+        <input
+            type="email"
+            id="email"
+            placeholder="Email Address"
+            required
+        >
 
-      <div class="card">
-        <h3>Visit Us</h3>
-        <p>Brantford, Ontario, Canada.</p>
-      </div>
+        <input
+            type="tel"
+            id="phone"
+            placeholder="Phone Number"
+        >
 
-      <div class="card">
-        <h3>Business Hours</h3>
-        <p>Monday - Saturday</p>
-        <p>Hours coming soon.</p>
-      </div>
+        <input
+            type="text"
+            id="vehicle"
+            placeholder="Vehicle Make & Model"
+        >
 
-    </div>
-  </section>
+        <textarea
+            id="message"
+            placeholder="Describe the work your vehicle needs..."
+            required
+        ></textarea>
 
-  <section class="section">
-    <div class="section-title">
-      <p>Send A Message</p>
-      <h2>Service Request Form</h2>
-    </div>
+        <button
+            class="btn primary-btn"
+            type="submit">
+            Submit Request
+        </button>
 
-    <form class="contact-form">
-      <input type="text" placeholder="Your Full Name" required>
-      <input type="email" placeholder="Your Email Address" required>
-      <input type="tel" placeholder="Your Phone Number">
-      <input type="text" placeholder="Vehicle Make and Model">
-      <textarea placeholder="Tell us what service you need..." required></textarea>
-      <button type="submit" class="btn primary-btn">Submit Request</button>
     </form>
-  </section>
 
-  <section class="cta">
-    <h2>Need Help With Your Vehicle?</h2>
-    <p>Go East Mechanics is ready to help keep your vehicle safe and reliable.</p>
-    <a href="services.html" class="btn primary-btn">View Services</a>
-  </section>
+</section>
 
-  <footer>
+<footer>
     <p>© 2026 Go East Mechanics. All Rights Reserved.</p>
-  </footer>
+</footer>
 
-  <script src="js/script.js"></script>
+<script src="js/script.js"></script>
+<script src="js/contact.js"></script>
+
 </body>
 </html>
