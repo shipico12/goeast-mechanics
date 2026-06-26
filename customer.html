@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Customer Dashboard | Go East Mechanics</title>
+
+  <link rel="stylesheet" href="css/admin.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+
+<body>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-logo">
+      GO EAST <span>MECHANICS</span>
+    </div>
+
+    <nav class="sidebar-nav">
+      <button class="nav-btn active" data-section="requestsSection">
+        My Requests
+      </button>
+
+      <button class="nav-btn" data-section="invoicesSection">
+        My Invoices
+      </button>
+
+      <button class="nav-btn" data-section="paymentsSection">
+        Payments
+      </button>
+    </nav>
+
+    <div class="sidebar-footer">
+      <a href="index.html">View Website</a>
+      <a href="contact.html">Book Service</a>
+      <button id="logoutBtn">Logout</button>
+    </div>
+
+  </aside>
+
+  <main class="admin-main">
+
+    <header class="admin-topbar">
+
+      <div>
+        <p class="top-label">Customer Portal</p>
+        <h1>My Dashboard</h1>
+      </div>
+
+      <div class="admin-user">
+        <span id="customerEmail">Loading...</span>
+      </div>
+
+    </header>
+
+    <section class="stats-grid">
+
+      <div class="stat-card">
+        <h3 id="totalRequests">0</h3>
+        <p>Total Requests</p>
+      </div>
+
+      <div class="stat-card blue">
+        <h3 id="newRequests">0</h3>
+        <p>New</p>
+      </div>
+
+      <div class="stat-card orange">
+        <h3 id="ongoingRequests">0</h3>
+        <p>Ongoing</p>
+      </div>
+
+      <div class="stat-card green">
+        <h3 id="finishedRequests">0</h3>
+        <p>Finished</p>
+      </div>
+
+    </section>
+
+    <section id="requestsSection" class="admin-section active-section">
+
+      <div class="section-heading">
+        <p>Service Requests</p>
+        <h2>My Vehicle Service Requests</h2>
+      </div>
+
+      <div id="customerRequests" class="cards-list">
+        <p class="empty-message">Loading your requests...</p>
+      </div>
+
+    </section>
+
+    <section id="invoicesSection" class="admin-section">
+
+      <div class="section-heading">
+        <p>Invoices</p>
+        <h2>My Invoices</h2>
+      </div>
+
+      <div id="customerInvoices" class="cards-list">
+        <p class="empty-message">Loading invoices...</p>
+      </div>
+
+    </section>
+
+    <section id="paymentsSection" class="admin-section">
+
+      <div class="section-heading">
+        <p>Payments</p>
+        <h2>My Payment Records</h2>
+      </div>
+
+      <div id="customerPayments" class="cards-list">
+        <p class="empty-message">Loading payments...</p>
+      </div>
+
+    </section>
+
+  </main>
+
+  <script src="js/customer.js"></script>
+
+</body>
+</html>
