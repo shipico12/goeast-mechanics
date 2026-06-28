@@ -439,4 +439,8 @@ body {
   .toolbar {
     flex-direction: column;
   }
+  .admin-locked .sidebar,
+.admin-locked .admin-main {
+  display: none;
+}
 }
