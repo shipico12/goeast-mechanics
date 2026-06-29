@@ -1,34 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!--
+    index.html
+    Public homepage for Go East Mechanics.
+
+    This page is now session-aware:
+    - Logged-out users see Login / Sign Up.
+    - Customers see My Dashboard / Logout + profile badge.
+    - Staff see Dashboard / Logout + profile badge.
+  -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Go East Mechanics | Auto Repairs & Vehicle Sales</title>
-  <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
 
-  <!-- Main navigation for all website pages -->
+  <title>Go East Mechanics | Auto Repairs & Vehicle Sales</title>
+
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- Supabase SDK required for session-aware navbar -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+
+<body>
   <header class="navbar">
     <div class="logo">GO EAST <span>MECHANICS</span></div>
-<nav class="nav-links" id="navLinks">
-  <a href="index.html">Home</a>
-  <a href="services.html">Services</a>
-  <a href="about.html">About</a>
-  <a href="inventory.html">Inventory</a>
-  <a href="contact.html">Book Service</a>
-  <a href="login.html">Login</a>
-  <a href="signup.html">Sign Up</a>
-  <a href="admin.html">Admin</a>
-</nav>
+
+    <nav class="nav-links" id="navLinks">
+      <a href="index.html">Home</a>
+      <a href="services.html">Services</a>
+      <a href="about.html">About</a>
+      <a href="inventory.html">Inventory</a>
+      <a href="contact.html">Book Service</a>
+
+      <!-- Auth links are replaced dynamically by js/script.js -->
+      <span id="authNavLinks">
+        <a href="login.html">Login</a>
+        <a href="signup.html">Sign Up</a>
+      </span>
+
+      <!-- Logged-in profile badge is filled by js/script.js -->
+      <div id="publicProfileBadge" class="public-profile-badge hidden"></div>
+    </nav>
+
     <button class="menu-btn" id="menuBtn">☰</button>
   </header>
 
-  <!-- Hero section introduces the business and main call-to-action -->
   <section class="hero">
     <div class="hero-content">
       <p class="tagline">Trusted Auto Repair & Vehicle Sales</p>
       <h1>Quality Repairs You Can Trust</h1>
+
       <p class="hero-text">
         Go East Mechanics provides reliable automotive repairs, maintenance,
         diagnostics, and vehicle sales at fair prices.
@@ -41,7 +62,6 @@
     </div>
   </section>
 
-  <!-- Short homepage preview about the company -->
   <section class="section about-preview">
     <div class="section-title">
       <p>About Us</p>
@@ -55,7 +75,6 @@
     </p>
   </section>
 
-  <!-- Main services shown as cards for easy reading -->
   <section class="section services-preview">
     <div class="section-title">
       <p>What We Do</p>
@@ -109,6 +128,8 @@
     <p>© 2026 Go East Mechanics. All Rights Reserved.</p>
   </footer>
 
+  <!-- Script order matters -->
+  <script src="js/auth-config.js"></script>
   <script src="js/script.js"></script>
 </body>
 </html>

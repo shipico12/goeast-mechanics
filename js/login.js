@@ -1,52 +1,71 @@
-const SUPABASE_URL = "https://jajpzobofhajsoxkszdx.supabase.co";
-
-const SUPABASE_ANON_KEY =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImphanB6b2JvZmhhanNveGtzemR4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIwNzM5MTUsImV4cCI6MjA5NzY0OTkxNX0.jH6oD-yc3M5NolFVKDG4NV_z2UVsJfF_Rkk25VqLzms";
-
-const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
 const loginForm = document.getElementById("loginForm");
 
 loginForm.addEventListener("submit", async function (event) {
   event.preventDefault();
 
+  const email = document.getElementById("email").value.trim().toLowerCase();
+  const password = document.getElementById("password").value;
   const button = loginForm.querySelector("button");
+
   button.disabled = true;
   button.textContent = "Logging in...";
 
-  const email = document.getElementById("email").value.trim();
-  const password = document.getElementById("password").value.trim();
+  try {
+    const { data: loginData, error: loginError } =
+      await supabaseClient.auth.signInWithPassword({
+        email,
+        password,
+      });
 
-  const { data, error } = await supabaseClient.auth.signInWithPassword({
-    email: email,
-    password: password
-  });
+    if (loginError) {
+      alert("Login failed: " + loginError.message);
+      return;
+    }
 
-  if (error) {
-    alert("Login failed: " + error.message);
+    const user = loginData.user;
+
+    let { data: profile, error: profileError } = await supabaseClient
+      .from("profiles")
+      .select("id, email, role")
+      .eq("id", user.id)
+      .maybeSingle();
+
+    if (!profile) {
+      const { data: newProfile, error: createError } = await supabaseClient
+        .from("profiles")
+        .insert([
+          {
+            id: user.id,
+            email: user.email,
+            role: "customer",
+          },
+        ])
+        .select("id, email, role")
+        .single();
+
+      if (createError) {
+        alert("Profile setup failed: " + createError.message);
+        return;
+      }
+
+      profile = newProfile;
+    }
+
+    if (profile.role === "developer") {
+      window.location.href = "admin.html";
+    } else if (profile.role === "upper_admin") {
+      window.location.href = "admin.html";
+    } else if (profile.role === "receptionist") {
+      window.location.href = "admin.html";
+    } else if (profile.role === "mechanic") {
+      window.location.href = "admin.html";
+    } else {
+      window.location.href = "customer.html";
+    }
+  } catch (err) {
+    alert("Unexpected login error: " + err.message);
+  } finally {
     button.disabled = false;
     button.textContent = "Login";
-    return;
-  }
-
-  const userId = data.user.id;
-
-  const { data: profile, error: profileError } = await supabaseClient
-    .from("profiles")
-    .select("role")
-    .eq("id", userId)
-    .single();
-
-  if (profileError) {
-    alert("Could not check your role. Please try again.");
-    button.disabled = false;
-    button.textContent = "Login";
-    return;
-  }
-
-  if (profile.role === "admin") {
-    window.location.href = "admin.html";
-  } else {
-    window.location.href = "customer.html";
   }
 });

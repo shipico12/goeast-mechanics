@@ -1,26 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!--
+    admin.html
+    Purpose:
+    Staff dashboard shell for Developer, Upper Admin, Receptionist, and Mechanic roles.
+
+    This page defines layout only.
+    Data loading and role logic are handled by the JS modules at the bottom.
+  -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Admin Dashboard | Go East Mechanics</title>
+  <title>Dashboard | Go East Mechanics</title>
 
   <link rel="stylesheet" href="css/admin.css" />
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
+
 <body>
-
   <aside class="sidebar">
-    <div class="sidebar-logo">GO EAST <span>MECHANICS</span></div>
+    <div>
+      <div class="sidebar-logo">GO EAST <span>MECHANICS</span></div>
+      <p class="sidebar-role" id="sidebarRoleLabel">Checking access...</p>
 
-    <nav class="sidebar-nav">
-      <button class="nav-btn active" data-section="dashboardSection">Dashboard</button>
-      <button class="nav-btn" data-section="requestsSection">Service Requests</button>
-      <button class="nav-btn" data-section="inventorySection">Inventory</button>
-      <button class="nav-btn" data-section="invoicesSection">Invoices</button>
-      <button class="nav-btn" data-section="paymentsSection">Payments</button>
-    </nav>
+      <nav class="sidebar-nav">
+        <button class="nav-btn active" data-section="dashboardSection" data-roles="developer,upper_admin,receptionist,mechanic">Dashboard</button>
+        <button class="nav-btn" data-section="requestsSection" data-roles="developer,upper_admin,receptionist,mechanic">Service Requests</button>
+        <button class="nav-btn" data-section="appointmentsSection" data-roles="developer,upper_admin,receptionist">Appointments</button>
+        <button class="nav-btn" data-section="mechanicSection" data-roles="developer,upper_admin,mechanic">Mechanic Jobs</button>
+        <button class="nav-btn" data-section="customersSection" data-roles="developer,upper_admin,receptionist">Customers</button>
+        <button class="nav-btn" data-section="inventorySection" data-roles="developer,upper_admin">Inventory</button>
+        <button class="nav-btn" data-section="invoicesSection" data-roles="developer,upper_admin">Invoices</button>
+        <button class="nav-btn" data-section="paymentsSection" data-roles="developer,upper_admin">Payments</button>
+        <button class="nav-btn" data-section="reportsSection" data-roles="developer,upper_admin">Reports</button>
+        <button class="nav-btn" data-section="developerSection" data-roles="developer">Developer</button>
+      </nav>
+    </div>
 
     <div class="sidebar-footer">
       <a href="index.html">View Website</a>
@@ -29,33 +45,76 @@
   </aside>
 
   <main class="admin-main">
-
     <header class="admin-topbar">
       <div>
-        <p class="top-label">Admin Panel</p>
-        <h1>Go East Mechanics Management</h1>
+        <p class="top-label" id="staffRoleLabel">Checking access...</p>
+        <h1 id="staffDashboardTitle">Go East Mechanics Dashboard</h1>
+        <p class="top-subtitle" id="dashboardSubtitle">Loading your secure workspace...</p>
       </div>
 
-      <div class="admin-user">
-        <span id="adminEmail">Checking access...</span>
+      <div class="profile-card">
+        <div class="profile-avatar" id="profileInitials">?</div>
+        <div>
+          <strong id="adminName">Checking access...</strong>
+          <span id="adminEmail">Loading email...</span>
+          <small id="adminRoleBadge">Loading role...</small>
+        </div>
       </div>
     </header>
 
     <section id="dashboardSection" class="admin-section active-section">
       <div class="section-heading">
-        <p>Overview</p>
-        <h2>Business Dashboard</h2>
+        <p>Role-Based Overview</p>
+        <h2 id="dashboardSectionTitle">Dashboard</h2>
       </div>
 
+      <div id="roleNotice" class="permission-notice hidden"></div>
+
       <div class="stats-grid">
-        <div class="stat-card"><h3 id="totalRequests">0</h3><p>Total Requests</p></div>
-        <div class="stat-card blue"><h3 id="newRequests">0</h3><p>New Requests</p></div>
-        <div class="stat-card orange"><h3 id="ongoingRequests">0</h3><p>Ongoing Jobs</p></div>
-        <div class="stat-card green"><h3 id="finishedRequests">0</h3><p>Finished Jobs</p></div>
-        <div class="stat-card red"><h3 id="canceledRequests">0</h3><p>Canceled Jobs</p></div>
-        <div class="stat-card"><h3 id="inventoryCount">0</h3><p>Inventory Items</p></div>
-        <div class="stat-card red"><h3 id="lowStockCount">0</h3><p>Low Stock</p></div>
-        <div class="stat-card green"><h3 id="paidInvoices">0</h3><p>Paid Invoices</p></div>
+        <div class="stat-card" data-roles="developer,upper_admin,receptionist,mechanic">
+          <h3 id="totalRequests">0</h3>
+          <p>Total Requests</p>
+        </div>
+
+        <div class="stat-card blue" data-roles="developer,upper_admin,receptionist,mechanic">
+          <h3 id="newRequests">0</h3>
+          <p>New Requests</p>
+        </div>
+
+        <div class="stat-card orange" data-roles="developer,upper_admin,receptionist">
+          <h3 id="acknowledgedRequests">0</h3>
+          <p>Acknowledged</p>
+        </div>
+
+        <div class="stat-card orange" data-roles="developer,upper_admin,receptionist,mechanic">
+          <h3 id="ongoingRequests">0</h3>
+          <p>Active Jobs</p>
+        </div>
+
+        <div class="stat-card green" data-roles="developer,upper_admin,receptionist,mechanic">
+          <h3 id="finishedRequests">0</h3>
+          <p>Ready / Closed</p>
+        </div>
+
+        <div class="stat-card red" data-roles="developer,upper_admin">
+          <h3 id="canceledRequests">0</h3>
+          <p>Cancelled Jobs</p>
+        </div>
+
+        <div class="stat-card" data-roles="developer,upper_admin">
+          <h3 id="inventoryCount">—</h3>
+          <p>Inventory Items</p>
+        </div>
+
+        <div class="stat-card red" data-roles="developer,upper_admin">
+          <h3 id="lowStockCount">—</h3>
+          <p>Low Stock</p>
+        </div>
+
+        <div class="stat-card green" data-roles="developer,upper_admin">
+          <h3 id="paidInvoices">—</h3>
+          <p>Payment Mode</p>
+        </div>
       </div>
     </section>
 
@@ -65,15 +124,27 @@
         <h2>Service Requests</h2>
       </div>
 
+      <div id="permissionNotice" class="permission-notice hidden"></div>
+
       <div class="toolbar">
-        <input type="search" id="requestSearch" placeholder="Search request...">
+        <input
+          type="search"
+          id="requestSearch"
+          placeholder="Search by name, email, phone, vehicle, status..."
+        />
 
         <select id="requestStatusFilter">
-          <option value="all">All Statuses</option>
+          <option value="active">Active Jobs</option>
+          <option value="ready_for_pickup">Ready for Pickup</option>
+          <option value="closed">Closed Jobs</option>
+          <option value="all">All Jobs</option>
           <option value="new">New</option>
-          <option value="ongoing">Ongoing</option>
-          <option value="finished">Finished</option>
-          <option value="canceled">Canceled</option>
+          <option value="acknowledged">Acknowledged</option>
+          <option value="diagnosing">Diagnosing</option>
+          <option value="waiting_parts">Waiting Parts</option>
+          <option value="repairing">Repairing</option>
+          <option value="testing">Testing</option>
+          <option value="cancelled">Cancelled</option>
         </select>
 
         <button id="refreshRequestsBtn">Refresh</button>
@@ -84,46 +155,54 @@
       </div>
     </section>
 
+    <section id="appointmentsSection" class="admin-section">
+      <div class="section-heading">
+        <p>Reception Desk</p>
+        <h2>Appointments</h2>
+      </div>
+
+      <div class="module-card">
+        <h3>Appointment module planned</h3>
+        <p>Receptionists will use this later for booking, check-in, and scheduling.</p>
+      </div>
+    </section>
+
+    <!--
+      Mechanic Jobs:
+      This is no longer a placeholder.
+      admin-mechanic-board.js renders active mechanic jobs inside mechanicJobsList.
+    -->
+    <section id="mechanicSection" class="admin-section">
+      <div class="section-heading">
+        <p>Workshop</p>
+        <h2>Mechanic Jobs</h2>
+      </div>
+
+      <div id="mechanicJobsList" class="cards-list">
+        <p class="empty-message">Loading mechanic jobs...</p>
+      </div>
+    </section>
+
+    <section id="customersSection" class="admin-section">
+      <div class="section-heading">
+        <p>Customer Desk</p>
+        <h2>Customers</h2>
+      </div>
+
+      <div class="module-card">
+        <h3>Customer management planned</h3>
+        <p>This will later connect profiles, vehicles, service history, invoices, and communication.</p>
+      </div>
+    </section>
+
     <section id="inventorySection" class="admin-section">
       <div class="section-heading">
         <p>Inventory Tracker</p>
         <h2>Parts, Supplies, Tools, and Vehicles</h2>
       </div>
 
-      <form id="inventoryForm" class="admin-form">
-        <input type="hidden" id="inventoryEditId">
-        <input type="text" id="itemName" placeholder="Item name" required>
-
-        <select id="itemType">
-          <option value="part">Part</option>
-          <option value="tool">Tool</option>
-          <option value="vehicle">Vehicle</option>
-          <option value="supply">Supply</option>
-          <option value="other">Other</option>
-        </select>
-
-        <input type="text" id="sku" placeholder="SKU / Code">
-        <input type="number" id="quantity" placeholder="Quantity" min="0" required>
-        <input type="number" id="lowStockLimit" placeholder="Low stock limit" min="0" value="2">
-        <input type="number" id="unitPrice" placeholder="Unit price" min="0" step="0.01">
-        <input type="text" id="supplier" placeholder="Supplier">
-        <input type="text" id="location" placeholder="Location">
-
-        <select id="inventoryStatus">
-          <option value="active">Active</option>
-          <option value="inactive">Inactive</option>
-          <option value="sold">Sold</option>
-          <option value="archived">Archived</option>
-        </select>
-
-        <textarea id="inventoryNotes" placeholder="Notes"></textarea>
-
-        <button type="submit" id="inventorySubmitBtn">Add Inventory Item</button>
-        <button type="button" id="cancelInventoryEditBtn" class="secondary-action hidden">Cancel Edit</button>
-      </form>
-
       <div id="inventoryList" class="cards-list">
-        <p class="empty-message">Loading inventory...</p>
+        <p class="empty-message">Inventory module is reserved for Developer and Upper Admin access.</p>
       </div>
     </section>
 
@@ -133,28 +212,8 @@
         <h2>Create and Track Invoices</h2>
       </div>
 
-      <form id="invoiceForm" class="admin-form">
-        <select id="invoiceRequestSelect" required>
-          <option value="">Select service request</option>
-        </select>
-
-        <input type="number" id="invoiceSubtotal" placeholder="Subtotal" min="0" step="0.01" required>
-        <input type="number" id="invoiceTax" placeholder="Tax" min="0" step="0.01" value="0">
-
-        <select id="invoiceStatus">
-          <option value="draft">Draft</option>
-          <option value="sent">Sent</option>
-          <option value="finished">Finished</option>
-          <option value="canceled">Canceled</option>
-        </select>
-
-        <textarea id="invoiceNotes" placeholder="Invoice notes"></textarea>
-
-        <button type="submit">Create Invoice</button>
-      </form>
-
       <div id="invoicesList" class="cards-list">
-        <p class="empty-message">Loading invoices...</p>
+        <p class="empty-message">Invoice module is reserved for Developer and Upper Admin access.</p>
       </div>
     </section>
 
@@ -164,40 +223,53 @@
         <h2>Track Payments</h2>
       </div>
 
-      <form id="paymentForm" class="admin-form">
-        <select id="paymentInvoiceSelect" required>
-          <option value="">Select invoice</option>
-        </select>
-
-        <input type="number" id="paymentAmount" placeholder="Payment amount" min="0" step="0.01" required>
-
-        <select id="paymentMethod">
-          <option value="cash">Cash</option>
-          <option value="e-transfer">E-transfer</option>
-          <option value="card">Card</option>
-          <option value="cheque">Cheque</option>
-          <option value="other">Other</option>
-        </select>
-
-        <input type="text" id="referenceNumber" placeholder="Reference number">
-        <textarea id="paymentNotes" placeholder="Payment notes"></textarea>
-
-        <button type="submit">Record Payment</button>
-      </form>
-
       <div id="paymentsList" class="cards-list">
-        <p class="empty-message">Loading payments...</p>
+        <p class="empty-message">Payments are manually recorded from the external payment portal.</p>
       </div>
     </section>
 
+    <section id="reportsSection" class="admin-section">
+      <div class="section-heading">
+        <p>Business Intelligence</p>
+        <h2>Reports</h2>
+      </div>
+
+      <div class="module-card">
+        <h3>Reports planned</h3>
+        <p>Reports will show request volume, invoice totals, payment status, low stock, and repair performance.</p>
+      </div>
+    </section>
+
+    <section id="developerSection" class="admin-section">
+      <div class="section-heading">
+        <p>Security & System</p>
+        <h2>Developer Control Center</h2>
+      </div>
+
+      <div class="request-card">
+        <h3>Role hierarchy</h3>
+
+        <div class="card-grid">
+          <p><strong>Developer</strong><br>Everything, including security, roles, diagnostics, and future audit logs.</p>
+          <p><strong>Upper Admin</strong><br>Business operations: requests, inventory, invoices, payments, customers, reports.</p>
+          <p><strong>Receptionist</strong><br>Front desk: requests, appointments, pickup communication, and customer check-in.</p>
+          <p><strong>Mechanic</strong><br>Repair status updates and customer-visible mechanic notes.</p>
+          <p><strong>Customer</strong><br>Own profile, requests, invoices, payments, and service history.</p>
+        </div>
+      </div>
+    </section>
   </main>
 
-<body class="admin-locked">
-
-    ...
-
-    <script src="js/admin.js"></script>
-
+  <!-- Script order matters -->
+  <script src="js/auth-config.js"></script>
+  <script src="js/admin-auth.js"></script>
+  <script src="js/admin-dashboard.js"></script>
+  <script src="js/admin-updates.js"></script>
+  <script src="js/admin-requests.js"></script>
+  <script src="js/admin-invoices.js"></script>
+  <script src="js/admin-payments.js"></script>
+  <script src="js/admin-mechanic-board.js"></script>
+  <script src="js/admin-mechanic.js"></script>
+  <script src="js/admin.js"></script>
 </body>
-
 </html>

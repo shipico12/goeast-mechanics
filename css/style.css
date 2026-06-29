@@ -35,6 +35,7 @@ body {
 .logo {
     font-size: 1.8rem;
     font-weight: 700;
+    white-space: nowrap;
 }
 
 .logo span {
@@ -52,10 +53,46 @@ body {
     text-decoration: none;
     font-weight: 600;
     transition: .3s;
+    white-space: nowrap;
 }
 
 .nav-links a:hover {
     color: #E63946;
+}
+
+/* Auth links injected by js/script.js */
+#authNavLinks {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+}
+
+/* Public logged-in profile badge */
+.public-profile-badge {
+    min-width: 170px;
+    padding: 8px 14px;
+    border-radius: 14px;
+    background: rgba(255,255,255,.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    line-height: 1.2;
+}
+
+.public-profile-badge strong {
+    color: white;
+    font-size: .9rem;
+    font-weight: 700;
+}
+
+.public-profile-badge span {
+    color: #dce7f2;
+    font-size: .78rem;
+    margin-top: 3px;
+}
+
+.hidden {
+    display: none !important;
 }
 
 .menu-btn {
@@ -276,6 +313,27 @@ footer {
     padding: 30px;
 }
 
+/* ===== Responsive layout ===== */
+
+@media(max-width: 1100px) {
+    .navbar {
+        padding: 18px 5%;
+    }
+
+    .nav-links {
+        gap: 15px;
+    }
+
+    #authNavLinks {
+        gap: 15px;
+    }
+
+    .public-profile-badge {
+        min-width: 145px;
+        padding: 8px 12px;
+    }
+}
+
 @media(max-width: 900px) {
     .nav-links {
         gap: 14px;
@@ -284,6 +342,10 @@ footer {
 
     .hero h1 {
         font-size: 3rem;
+    }
+
+    .public-profile-badge {
+        display: none;
     }
 }
 
@@ -301,12 +363,25 @@ footer {
         background: #0A2342;
         padding: 20px;
         border-radius: 10px;
-        width: 230px;
+        width: 260px;
         align-items: flex-start;
     }
 
     .nav-links.active {
         display: flex;
+    }
+
+    #authNavLinks {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 14px;
+    }
+
+    .public-profile-badge {
+        display: flex;
+        width: 100%;
+        min-width: unset;
+        margin-top: 8px;
     }
 
     .hero h1 {
